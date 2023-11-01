@@ -22,3 +22,11 @@ get_product_id <- function(var_id) {
   i <- which(erd_variable_tbl$variable_id == var_id)
   erd_variable_tbl$product_id[i]
 }
+
+get_internal_name <- function(var_id) {
+  if (length(var_id) > 1) {
+    stop("var_id must be a single variable. Did you forget to specify the time scale? E.g. erd_variables$sst when you meant erd_variables$sst$historical.")
+  }
+  i <- which(erd_variable_tbl$variable_id == var_id)
+  erd_variable_tbl$internal_name[i]
+}
