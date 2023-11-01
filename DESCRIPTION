@@ -22,3 +22,5 @@ Imports:
     stringr,
     terra,
     yaml
+URL: https://github.com/FlukeAndFeather/rerd
+BugReports: https://github.com/FlukeAndFeather/rerd/issues
