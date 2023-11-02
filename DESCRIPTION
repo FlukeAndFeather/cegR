@@ -1,17 +1,17 @@
 Type: Package
-Package: rerd
-Title: Internal data access package for the ERD Heritage Harbor office
+Package: cegR
+Title: Internal data access package for the CEG Heritage Harbor office
 Version: 0.0.9999
 Authors@R: 
     person("Max", "Czapanskiy", , "maxczapanskiy@gmail.com", role = c("aut", "cre"),
            comment = c("ORCID-ID" = "0000-0002-6302-905X"))
 Maintainer: The package maintainer <yourself@somewhere.net>
-Description: rerd is a unified interface for environmental data extraction
-    tasks. It is designed for the ERD Heritage Harbor office for their
+Description: cegR is a unified interface for environmental data extraction
+    tasks. It is designed for the CEG Heritage Harbor office for their
     marine species distribution modeling projects.
 License: MIT + file LICENSE
-URL: https://github.com/FlukeAndFeather/rerd
-BugReports: https://github.com/FlukeAndFeather/rerd/issues
+URL: https://github.com/FlukeAndFeather/cegR
+BugReports: https://github.com/FlukeAndFeather/cegR/issues
 Depends: 
     R (>= 2.10)
 Imports: 

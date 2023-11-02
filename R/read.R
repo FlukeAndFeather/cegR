@@ -1,10 +1,10 @@
 #' Read an environmental variable
 #'
-#' @param var_id `[chr(1)]` The variable id. Use `erd_variables` to look up
+#' @param cegr_var `[chr(1)]` The variable id. Use `erd_variables` to look up
 #'   variable ids by name and time scale, e.g., `erd_variables$o2$historical`.
 #' @param lon `[dbl(n)]` Longitudes of points to extract. Must be the same
 #'   length as `lat` and `t`, and must fall within the _spatial_ domain of the
-#'   product containing variable `var_id`.
+#'   product containing variable `var_id`. TODO: [-180, 180]
 #' @param lat `[dbl(n)]` Latitudes of points to extract. Must be the same length
 #'   as `lon` and `t`, and must fall within the _spatial_ domain of the product
 #'   containing variable `var_id`.
@@ -21,12 +21,13 @@
 #' set.seed(1234)
 #' x <- cumsum(c(-125, runif(9, -0.2, 0.2)))
 #' y <- cumsum(c(33, runif(9, -0.2, 0.2)))
+#' z <- ???
 #' t <- as.POSIXct("2020-04-01", tz = "UTC") + (0:9) * 3600 * 24 * 7
-#' read_var(erd_variables$o2$historical, x, y, t)
+#' read_var(erd_variables$o2$historical, x, y, z, t)
 #' }
-read_var <- function(var_id, lon, lat, t) {
-  product_path <- get_product_path(var_id)
-  internal_name <- get_internal_name(var_id)
+cegr_read <- function(cegr_var, lon, lat, t) {
+  product_path <- get_product_path(cegr_var)
+  internal_name <- get_internal_name(cegr_var)
   var_rast <- terra::sds(product_path)[internal_name]
   time_ext <- range(terra::time(var_rast))
   pts <- terra::vect(cbind(lon, lat), crs = "EPSG:4326")
