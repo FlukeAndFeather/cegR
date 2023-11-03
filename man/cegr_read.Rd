@@ -7,12 +7,15 @@
 cegr_read(cegr_var, lon, lat, t)
 }
 \arguments{
-\item{cegr_var}{\verb{[chr(1)]} The variable id. Use \code{ceg_vars} to look up
-variable ids by name and time scale, e.g., \code{ceg_vars$o2$historical}.}
+\item{cegr_var}{\verb{[chr(1)]} The variable id. Use \code{cegr_vars} to look up
+variable ids by product, name, and time scale, e.g.,
+\verb{cegr_vars$}Biogeochemistry Ocean Model\verb{$o2$historical}. See
+\link{cegr_vars}.}
 
-\item{lon}{\verb{[dbl(n)]} Longitudes of points to extract. Must be the same
-length as \code{lat} and \code{t}, and must fall within the \emph{spatial} domain of the
-product containing variable \code{var_id}. TODO: \link{-180, 180}}
+\item{lon}{\verb{[dbl(n)]} Longitudes of points to extract, in \link{-180, 180}. Must
+be the same length as \code{lat} and \code{t}, and must fall within the \emph{spatial}
+domain of the product containing variable \code{var_id}. See
+\link{cegr_convert_lon}.}
 
 \item{lat}{\verb{[dbl(n)]} Latitudes of points to extract. Must be the same length
 as \code{lon} and \code{t}, and must fall within the \emph{spatial} domain of the product
@@ -35,6 +38,6 @@ set.seed(1234)
 x <- cumsum(c(-125, runif(9, -0.2, 0.2)))
 y <- cumsum(c(33, runif(9, -0.2, 0.2)))
 t <- as.POSIXct("2020-04-01", tz = "UTC") + (0:9) * 3600 * 24 * 7
-cegr_read(ceg_vars$`Biogeochemistry Ocean Model`$o2$historical, x, y, t)
+cegr_read(cegr_vars$`Biogeochemistry Ocean Model`$o2$historical, x, y, t)
 }
 }
