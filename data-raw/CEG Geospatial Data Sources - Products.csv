@@ -1,13 +1,17 @@
-product_id,product_descriptor,product_name,source,time_scale,provider,version,doi
-733df46c-861b-4c7e-a7ce-6003309e562c,Sea surface temperature,SST_GLO_SST_L4_REP_OBSERVATIONS_010_011,GHRSST,historical,CMEMS,NA,10.48670/moi-00168
-7b158a9c-ec60-4bb7-a65b-d5fdc19d3767,Sea surface temperature,SST_GLO_SST_L4_NRT_Observations_010_001,GHRSST,nrt,CMEMS,NA,10.48670/moi-00165
-9a8f7536-e319-4e9d-889c-d413210494f1,Altimetry,SEALEVEL_GLO_PHY_L4_MY_008_047,Aviso,historical,CMEMS,NA,10.48670/moi-00148
-5a885f58-88e2-4ab4-b69b-16c6b2743318,Altimetry,SEALEVEL_GLO_PHY_L4_NRT_OBSERVATIONS_008_046,Aviso,nrt,CMEMS,NA,10.48670/moi-00149
-a43318eb-4dcd-4248-8ab5-db5aa310e0ee,Ocean Physics Model,GLOBAL_MULTIYEAR_PHY_001_030,GLORYS,historical,CMEMS,GLORYS12V1,10.48670/moi-00021
-de2d094f-29e9-4011-9af3-eea598dd1903,Ocean Physics Model,GLOBAL_ANALYSISFORECAST_PHY_001_024,GLORYS,nrt,CMEMS,GLORYS12V1,10.48670/moi-00016
-932176b2-dd40-4b5b-a33e-9d5c0d01e56e,Biogeochemistry Ocean Model,GLOBAL_MULTIYEAR_BGC_001_029,FREEBIORYS,historical,CMEMS,FREEBIORYS2V4,10.48670/moi-00019
-4abfac4f-f7ce-4e30-a6e4-182cad53cdb2,Biogeochemistry Ocean Model,GLOBAL_ANALYSIS_FORECAST_BIO_001_028,BIOMER,nrt,CMEMS,BIOMER4V2R1,10.48670/moi-00015
-9394583f-4598-4432-86d7-d8a57b4489e1,Bathymetry,ETOPO,NCEI,static,NCEI,ETOPO 2022,10.25921/fd45-gt74
-333bdd5d-f966-42c5-a3e7-48b189662f1e,Distance to coastline,dist2coast_1deg,NASA Ocean Biology Processing Group,static,PacIOOS,NA,NA
-b84f9b27-f975-4f03-a983-628df71872b2,Seamount catalog,NA,Yesson et al. (2020),static,PANGAEA,NA,10.1594/PANGAEA.921688
-def3812c-3ef7-4024-9fa7-d485b506a078,Maritime Boundaries Geodatabase,NA,Flanders Marine Institute,static,VLIZ,11,10.14284/386
+product_id,product_descriptor,product_name,source,time_scale,provider,version,doi,citation
+733df46c-861b-4c7e-a7ce-6003309e562c,Sea surface temperature,SST_GLO_SST_L4_REP_OBSERVATIONS_010_011,GHRSST,historical,CMEMS,NA,10.48670/moi-00168,
+7b158a9c-ec60-4bb7-a65b-d5fdc19d3767,Sea surface temperature,SST_GLO_SST_L4_NRT_Observations_010_001,GHRSST,nrt,CMEMS,NA,10.48670/moi-00165,
+9a8f7536-e319-4e9d-889c-d413210494f1,Altimetry,SEALEVEL_GLO_PHY_L4_MY_008_047,Aviso,historical,CMEMS,NA,10.48670/moi-00148,
+5a885f58-88e2-4ab4-b69b-16c6b2743318,Altimetry,SEALEVEL_GLO_PHY_L4_NRT_OBSERVATIONS_008_046,Aviso,nrt,CMEMS,NA,10.48670/moi-00149,
+a43318eb-4dcd-4248-8ab5-db5aa310e0ee,Ocean Physics Model,GLOBAL_MULTIYEAR_PHY_001_030,GLORYS,historical,CMEMS,GLORYS12V1,10.48670/moi-00021,
+de2d094f-29e9-4011-9af3-eea598dd1903,Ocean Physics Model,GLOBAL_ANALYSISFORECAST_PHY_001_024,GLORYS,nrt,CMEMS,GLORYS12V1,10.48670/moi-00016,
+932176b2-dd40-4b5b-a33e-9d5c0d01e56e,Biogeochemistry Ocean Model,GLOBAL_MULTIYEAR_BGC_001_029,FREEBIORYS,historical,CMEMS,FREEBIORYS2V4,10.48670/moi-00019,
+4abfac4f-f7ce-4e30-a6e4-182cad53cdb2,Biogeochemistry Ocean Model,GLOBAL_ANALYSIS_FORECAST_BIO_001_028,BIOMER,nrt,CMEMS,BIOMER4V2R1,10.48670/moi-00015,
+9394583f-4598-4432-86d7-d8a57b4489e1,Bathymetry,ETOPO,NCEI,static,NCEI,ETOPO 2022,10.25921/fd45-gt74,
+333bdd5d-f966-42c5-a3e7-48b189662f1e,Distance to coastline,dist2coast_1deg,NASA Ocean Biology Processing Group,static,PacIOOS,NA,NA,
+b84f9b27-f975-4f03-a983-628df71872b2,Seamount catalog,NA,Yesson et al. (2020),static,PANGAEA,NA,10.1594/PANGAEA.921688,
+def3812c-3ef7-4024-9fa7-d485b506a078,Maritime Boundaries Geodatabase,NA,Flanders Marine Institute,static,VLIZ,11,10.14284/386,
+7a22bce6-6ff1-4249-9d84-e292ac0a4716,ROMS Physical,EcoROMS,UCSC Ocean Modeling and Data Assimilation ,nrt,UCSC,???,NA,Neveu et al. (2016) doi:10.1016/j.ocemod.2015.11.012
+9393177c-1eaa-48dd-8beb-1b757f778480,ROMS Biogeochemical,ROMS-NEMUCSC ,???,nrt,???,???,???,
+450bdb8c-fe33-4a25-b7ac-faf3b052da98,World Database on Protected Areas,WDPA,Protected Planet,static,Protected Planet,Oct 2023,NA,
+1ee371b6-bb16-4309-a1b2-cab57c09c1a0,DERIVED,DERIVED,MULTIPLE,MULTIPLE,MULTIPLE,MULTIPLE,MULTIPLE,

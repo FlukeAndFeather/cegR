@@ -1,7 +1,7 @@
 #' Read an environmental variable
 #'
-#' @param cegr_var `[chr(1)]` The variable id. Use `erd_variables` to look up
-#'   variable ids by name and time scale, e.g., `erd_variables$o2$historical`.
+#' @param cegr_var `[chr(1)]` The variable id. Use `ceg_vars` to look up
+#'   variable ids by name and time scale, e.g., `ceg_vars$o2$historical`.
 #' @param lon `[dbl(n)]` Longitudes of points to extract. Must be the same
 #'   length as `lat` and `t`, and must fall within the _spatial_ domain of the
 #'   product containing variable `var_id`. TODO: [-180, 180]
@@ -21,9 +21,8 @@
 #' set.seed(1234)
 #' x <- cumsum(c(-125, runif(9, -0.2, 0.2)))
 #' y <- cumsum(c(33, runif(9, -0.2, 0.2)))
-#' z <- ???
 #' t <- as.POSIXct("2020-04-01", tz = "UTC") + (0:9) * 3600 * 24 * 7
-#' read_var(erd_variables$o2$historical, x, y, z, t)
+#' cegr_read(ceg_vars$`Biogeochemistry Ocean Model`$o2$historical, x, y, t)
 #' }
 cegr_read <- function(cegr_var, lon, lat, t) {
   product_path <- get_product_path(cegr_var)
