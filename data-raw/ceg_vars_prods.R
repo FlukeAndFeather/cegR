@@ -1,8 +1,13 @@
 ## Products and variables used by CEG Heritage Harbor
 
+# Authenticate if necessary
+# googlesheets4::gs4_auth(email = "*@noaa.gov")
+
 # These are internal
-ceg_product_tbl <- readr::read_csv(here::here("data-raw/CEG Geospatial Data Sources - Products.csv"))
-ceg_variable_tbl <- readr::read_csv(here::here("data-raw/CEG Geospatial Data Sources - Variables.csv"))
+ceg_product_tbl <- googlesheets4::read_sheet("15duOwuf5PCRfLEXWJzopdzQbZkjHhTvHbop2xDWWcME",
+                                             "Products")
+ceg_variable_tbl <- googlesheets4::read_sheet("15duOwuf5PCRfLEXWJzopdzQbZkjHhTvHbop2xDWWcME",
+                                              "Variables")
 
 # External-facing "ceg_vars" object takes the form:
 # ceg_vars$<product_name>$<variable_name>$<time_scale> and the value is the
