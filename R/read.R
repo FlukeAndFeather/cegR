@@ -2,7 +2,7 @@
 #'
 #' @param cegr_var `[chr(1)]` The variable id. Use `cegr_vars` to look up
 #'   variable ids by product, name, and time scale, e.g.,
-#'   `cegr_vars$`Biogeochemistry Ocean Model`$o2$historical`. See
+#'   ``cegr_vars$`Biogeochemistry Ocean Model`$o2$historical``. See
 #'   \link{cegr_vars}.
 #' @param lon `[dbl(n)]` Longitudes of points to extract, in (-180, 180). Must
 #'   be the same length as `lat` and `t`, and must fall within the _spatial_
@@ -11,7 +11,7 @@
 #' @param lat `[dbl(n)]` Latitudes of points to extract. Must be the same length
 #'   as `lon` and `t`, and must fall within the _spatial_ domain of the product
 #'   containing variable `var_id`.
-#' @param t `[dbl(n)]` Times of points to extract. Must be the same length as
+#' @param t `[POSIX(n)]` Times of points to extract. Must be the same length as
 #'   `lon` and `lat`, and must fall within the _temporal_ domain of the product
 #'   containing variable `var_id`.
 #'

@@ -9,10 +9,10 @@ cegr_read(cegr_var, lon, lat, t)
 \arguments{
 \item{cegr_var}{\verb{[chr(1)]} The variable id. Use \code{cegr_vars} to look up
 variable ids by product, name, and time scale, e.g.,
-\verb{cegr_vars$}Biogeochemistry Ocean Model\verb{$o2$historical}. See
+\code{cegr_vars$`Biogeochemistry Ocean Model`$o2$historical}. See
 \link{cegr_vars}.}
 
-\item{lon}{\verb{[dbl(n)]} Longitudes of points to extract, in \link{-180, 180}. Must
+\item{lon}{\verb{[dbl(n)]} Longitudes of points to extract, in (-180, 180). Must
 be the same length as \code{lat} and \code{t}, and must fall within the \emph{spatial}
 domain of the product containing variable \code{var_id}. See
 \link{cegr_convert_lon}.}
@@ -21,7 +21,7 @@ domain of the product containing variable \code{var_id}. See
 as \code{lon} and \code{t}, and must fall within the \emph{spatial} domain of the product
 containing variable \code{var_id}.}
 
-\item{t}{\verb{[dbl(n)]} Times of points to extract. Must be the same length as
+\item{t}{\verb{[POSIX(n)]} Times of points to extract. Must be the same length as
 \code{lon} and \code{lat}, and must fall within the \emph{temporal} domain of the product
 containing variable \code{var_id}.}
 }

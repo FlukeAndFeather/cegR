@@ -1,6 +1,6 @@
 
 get_product_path <- function(var_id) {
-  prod_id <- with(erd_variable_tbl, product_id[variable_id == var_id])
+  prod_id <- with(ceg_variable_tbl, product_id[variable_id == var_id])
   if (prod_id %in% names(product_paths())) {
     product_paths()[[prod_id]]$path
   } else{
@@ -33,7 +33,7 @@ product_paths <- function() {
 }
 
 paths_yml <- function() {
-  result <- system.file("paths.yml", package = "rerd")
+  result <- system.file("paths.yml", package = "cegR")
   if (!file.exists(result)) {
     file.create(result)
   }
