@@ -5,15 +5,15 @@
 #'   ``cegr_vars$`Biogeochemistry Ocean Model`$o2$historical``. See
 #'   \link{cegr_vars}.
 #' @param lon `[dbl(n)]` Longitudes of points to extract, in (-180, 180). Must
-#'   be the same length as `lat` and `t`, and must fall within the _spatial_
-#'   domain of the product containing variable `var_id`. See
-#'   \link{cegr_convert_lon}.
+#'   be the same length as `lat` and `t`. See \link{cegr_convert_lon}.
 #' @param lat `[dbl(n)]` Latitudes of points to extract. Must be the same length
-#'   as `lon` and `t`, and must fall within the _spatial_ domain of the product
-#'   containing variable `var_id`.
+#'   as `lon` and `t`.
 #' @param t `[POSIX(n)]` Times of points to extract. Must be the same length as
-#'   `lon` and `lat`, and must fall within the _temporal_ domain of the product
-#'   containing variable `var_id`.
+#'   `lon` and `lat`.
+#' @param if_outside `[chr(1)]` What to do if `lon`, `lat`, or `t` fall outside
+#'   the spatiotemporal domain of the product. If "warn" (default),
+#'   `cegr_read()` returns NA for those points and throws a warning. "none" does
+#'   the same, but without the warning. "error" throws an error.
 #'
 #' @return `[dbl(n)]` The values of the environmental variable extracted from
 #'   the points (`lon`, `lat`) at the points in time closest to `t`.
@@ -27,28 +27,37 @@
 #' t <- as.POSIXct("2020-04-01", tz = "UTC") + (0:9) * 3600 * 24 * 7
 #' cegr_read(cegr_vars$`Biogeochemistry Ocean Model`$o2$historical, x, y, t)
 #' }
-cegr_read <- function(cegr_var, lon, lat, t) {
+cegr_read <- function(cegr_var, lon, lat, t,
+                      if_outside = c("warn", "error", "none")) {
+  if (missing(if_outside)) {
+    if_outside <- "warn"
+  } else {
+    if_outside <- match.arg(if_outside)
+  }
+
   product_path <- get_product_path(cegr_var)
   internal_name <- get_internal_name(cegr_var)
   var_rast <- terra::sds(product_path)[internal_name]
   time_ext <- range(terra::time(var_rast))
   pts <- terra::vect(cbind(lon, lat), crs = "EPSG:4326")
 
-  if (!all(terra::relate(var_rast, pts, "covers"))) {
-    stop(stringr::str_glue(
-"Some points (lon, lat) fall outside the product spatial extent.
+  if (!all(terra::relate(var_rast, pts, "covers")) ||
+      !all(t >= time_ext[1] & t <= time_ext[2])) {
+    msg <- stringr::str_glue(
+"Some points (lon, lat) fall outside the product spatialtemporal extent.
 Product spatial extent:
 {terra::ext(var_rast)}
 Points spatial extent:
-{terra::ext(pts)}"))
-  }
-  if (!all(t >= time_ext[1] & t <= time_ext[2])) {
-    stop(stringr::str_glue(
-"Some points (t) fall outside the product temporal extent.
+{terra::ext(pts)}
 Product temporal extent:
 {time_ext[1]} - {time_ext[2]}
 Points temporal extent:
-{min(t)} - {max(t)}"))
+{min(t)} - {max(t)}"
+)
+    switch (if_outside,
+            warn = warning(msg),
+            error = stop(msg),
+            none = NULL)
   }
 
   var_pts <- terra::extract(var_rast, pts)

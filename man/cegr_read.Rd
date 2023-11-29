@@ -4,7 +4,7 @@
 \alias{cegr_read}
 \title{Read an environmental variable}
 \usage{
-cegr_read(cegr_var, lon, lat, t)
+cegr_read(cegr_var, lon, lat, t, if_outside = c("warn", "error", "none"))
 }
 \arguments{
 \item{cegr_var}{\verb{[chr(1)]} The variable id. Use \code{cegr_vars} to look up
@@ -13,17 +13,18 @@ variable ids by product, name, and time scale, e.g.,
 \link{cegr_vars}.}
 
 \item{lon}{\verb{[dbl(n)]} Longitudes of points to extract, in (-180, 180). Must
-be the same length as \code{lat} and \code{t}, and must fall within the \emph{spatial}
-domain of the product containing variable \code{var_id}. See
-\link{cegr_convert_lon}.}
+be the same length as \code{lat} and \code{t}. See \link{cegr_convert_lon}.}
 
 \item{lat}{\verb{[dbl(n)]} Latitudes of points to extract. Must be the same length
-as \code{lon} and \code{t}, and must fall within the \emph{spatial} domain of the product
-containing variable \code{var_id}.}
+as \code{lon} and \code{t}.}
 
 \item{t}{\verb{[POSIX(n)]} Times of points to extract. Must be the same length as
-\code{lon} and \code{lat}, and must fall within the \emph{temporal} domain of the product
-containing variable \code{var_id}.}
+\code{lon} and \code{lat}.}
+
+\item{if_outside}{\verb{[chr(1)]} What to do if \code{lon}, \code{lat}, or \code{t} fall outside
+the spatiotemporal domain of the product. If "warn" (default),
+\code{cegr_read()} returns NA for those points and throws a warning. "none" does
+the same, but without the warning. "error" throws an error.}
 }
 \value{
 \verb{[dbl(n)]} The values of the environmental variable extracted from
