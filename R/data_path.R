@@ -33,7 +33,7 @@ product_paths <- function() {
 }
 
 paths_yml <- function() {
-  result <- system.file("paths.yml", package = "cegR")
+  result <- file.path(system.file(package = "cegR"), "paths.yml")
   if (!file.exists(result)) {
     file.create(result)
   }
