@@ -1,18 +1,18 @@
 ## code to prepare `cegr_datasets` dataset goes here
 
-# Recursive function to make leaves (e.g., c(")) into lists
-rename_leaves <- function(l, path = NULL) {
+# Recursive function to make terminal elements of a hierarchical list into paths
+# to themselves (e.g. foo$bar = "a" becomes foo$bar$a = foo:bar:a)
+list_as_paths <- function(l, path = NULL) {
   if (is.null(names(l))) {
-    result <- as.list(rep(path, length(l)))
-    names(result) <- l
-    result
+    paths <- as.list(paste(path, l, sep = ":"))
+    magrittr::set_names(paths, l)
   } else {
     paths <- if(is.null(path)) {
       names(l)
     } else {
       paste(path, names(l), sep = ":")
     }
-    mapply(rename_leaves, l, paths, SIMPLIFY = FALSE)
+    mapply(list_as_paths, l, paths, SIMPLIFY = FALSE)
   }
 }
 
@@ -48,7 +48,7 @@ cegr_datasets <- list(
     )
   )
 ) %>%
-  rename_leaves()
+  list_as_paths()
 
 cegr_paths <- readLines("data-raw/paths.txt") %>%
   strsplit("=") %>%
