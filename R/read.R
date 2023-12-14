@@ -19,7 +19,7 @@
 #'               as.POSIXct("2020-12-01", "UTC"),
 #'               length.out = 10))
 #' cegr_read(cegr_datasets$annex$satellite$`Sea surface temperature`$nrt$analysed_sst,
-#'           -125, 37, as.POSIXct("2020-01-01", "UTC"), 150)
+#'           -125, 37, as.POSIXct("2020-01-01", "UTC"))
 cegr_read <- function(cegr_var, lon, lat, t, depth = NA) {
   stopifnot(is_path_valid(cegr_var))
 
@@ -70,7 +70,7 @@ read_satellite <- function(cegr_var, lon, lat, t, depth) {
   var_id <- substr(cegr_var, nchar(product_id) + 2, nchar(cegr_var))
 
   # Split request by date, extract data, and recombine
-  dplyr::tibble(lon, lat, t, depth) %>%
+  dplyr::tibble(lon, lat, t, depth, i = seq(length(lon))) %>%
     dplyr::mutate(t_year = format(t, "%Y"),
                   t_month = format(t, "%m"),
                   t_ymd = format(t, "%Y%m%d")) %>%
@@ -112,9 +112,12 @@ read_satellite <- function(cegr_var, lon, lat, t, depth) {
                         \(a, b) nc_data[a, b])
       }
       ncdf4::nc_close(ymd_nc)
-      .rows[[var_id]] <- result
+      .rows$result <- result
       .rows
-    })
+    }) %>%
+    ungroup() %>%
+    arrange(i) %>%
+    pull(result)
 }
 
 find_nearest <- function(x, y) {
