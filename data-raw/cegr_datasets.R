@@ -23,8 +23,8 @@ cegr_datasets <- list(
   annex = list(
     satellite = list(
       `Sea surface temperature` = list(
-        nrt = c("sst", "sea ice"),
-        historical = c("sst", "sea ice")
+        nrt = c("analysed_sst", "sea_ice_fraction"),
+        historical = c("analysed_sst", "sea_ice_fraction")
       ),
       Altimetry = list(
         nrt = c("adt", "sla", "ugos", "ugosa", "vgos", "vgosa"),

@@ -36,9 +36,9 @@ read_roms <- function(cegr_var, lon, lat, t) {
 
   # Extract data
   roms_idx <- list(
-    lon_idx = sapply(lon, \(x) which.min(abs(x - roms_lon))),
-    lat_idx = sapply(lat, \(x) which.min(abs(x - roms_lat))),
-    time_idx = sapply(t, \(x) which.min(abs(x - roms_time)))
+    lon_idx = find_nearest(lon, roms_lon),
+    lat_idx = find_nearest(lat, roms_lat),
+    time_idx = find_nearest(time, roms_time)
   )
   result <- purrr::pmap_dbl(roms_idx, \(lon_idx, lat_idx, time_idx) roms_data[lon_idx, lat_idx, time_idx])
 
@@ -47,4 +47,63 @@ read_roms <- function(cegr_var, lon, lat, t) {
   result
 }
 
+read_satellite <- function(cegr_var, lon, lat, t, depth = NA) {
+  # Locate satellite product directory (drop final component of cegr_var, which
+  # is the variable within the product)
+  product_id <- sub("(.*):[^:]+$", "\\1", cegr_var)
+  product_dir <- cegr_paths[[product_id]]
 
+  # Extract variable id (final component of cegr_var)
+  var_id <- substr(cegr_var, nchar(product_id) + 2, nchar(cegr_var))
+
+  # Split request by date, extract data, and recombine
+  dplyr::tibble(lon, lat, t, depth) %>%
+    dplyr::mutate(t_year = format(t, "%Y"),
+                  t_month = format(t, "%m"),
+                  t_ymd = format(t, "%Y%m%d")) %>%
+    dplyr::group_by(t_year, t_month, t_ymd) %>%
+    # Extract data for a single day
+    dplyr::group_modify(\(.rows, .keys) {
+      # Find day's netCDF file
+      ym_dir <- file.path(product_dir, .keys$t_year, .keys$t_month)
+      ymd_path <- dir(ym_dir, .keys$t_ymd, full.name = TRUE)
+      ymd_nc <- ncdf4::nc_open(ymd_path)
+
+      # Figure out dimensions
+      nc_dims <- names(ymd_nc$dim)
+      nc_lon <- ncdf4::ncvar_get(ymd_nc, nc_dims[grep("lon", nc_dims)])
+      nc_lat <- ncdf4::ncvar_get(ymd_nc, nc_dims[grep("lat", nc_dims)])
+      if (!is.na(depth))
+        nc_depth <- ncdf4::ncvar_get(ymd_nc, nc_dims[grep("depth", nc_dims)])
+      nc_time <- ncdf4::ncvar_get(ymd_nc, nc_dims[grep("time", nc_dims)])
+
+      # Locate x,y,z,t indices
+      x_idx <- find_nearest(.rows$lon, nc_lon)
+      y_idx <- find_nearest(.rows$lat, nc_lat)
+      if (!is.na(.rows$depth))
+        z_idx <- find_nearest(.rows$depth, nc_depth)
+
+      # Extract data
+      # Order of dimensions may change between datasets
+      dim_order <- if (!is.na(depth)) {
+        order(sapply(c("lon", "lat", "depth"), \(x) grep(x, nc_dims)))
+      } else {
+        order(sapply(c("lon", "lat"), \(x) grep(x, nc_dims)))
+      }
+      nc_data <- ncdf4::ncvar_get(ymd_nc, var_id)
+      result <- if (!is.na(depth)) {
+        purrr::pmap_dbl(list(x_idx, y_idx, z_idx)[dim_order],
+                        \(a, b, c) nc_data[a, b, c])
+      } else {
+        purrr::pmap_dbl(list(x_idx, y_idx)[dim_order],
+                        \(a, b) nc_data[a, b])
+      }
+      ncdf4::nc_close(ymd_nc)
+      .rows[[var_id]] <- result
+      .rows
+    })
+}
+
+find_nearest <- function(x, y) {
+  sapply(x, \(.x) which.min(abs(as.numeric(.x - y))))
+}
