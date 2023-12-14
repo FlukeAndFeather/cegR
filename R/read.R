@@ -18,7 +18,7 @@
 #'           seq(as.POSIXct("2020-01-01", "UTC"),
 #'               as.POSIXct("2020-12-01", "UTC"),
 #'               length.out = 10))
-#' cegr_read(cegr_datasets$annex$satellite$`Ocean physics model`$nrt$salinity,
+#' cegr_read(cegr_datasets$annex$satellite$`Sea surface temperature`$nrt$analysed_sst,
 #'           -125, 37, as.POSIXct("2020-01-01", "UTC"), 150)
 cegr_read <- function(cegr_var, lon, lat, t, depth = NA) {
   stopifnot(is_path_valid(cegr_var))

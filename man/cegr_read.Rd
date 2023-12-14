@@ -32,6 +32,6 @@ cegr_read(cegr_datasets$supercomputer$ROMS$bbv,
           seq(as.POSIXct("2020-01-01", "UTC"),
               as.POSIXct("2020-12-01", "UTC"),
               length.out = 10))
-cegr_read(cegr_datasets$annex$satellite$`Ocean physics model`$nrt$salinity,
+cegr_read(cegr_datasets$annex$satellite$`Sea surface temperature`$nrt$analysed_sst,
           -125, 37, as.POSIXct("2020-01-01", "UTC"), 150)
 }
