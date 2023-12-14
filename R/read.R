@@ -1,25 +1,38 @@
-#' Title
+#' Read data CEG-approved data sources
 #'
-#' @param cegr_var
-#' @param lon
-#' @param lat
-#' @param t
+#' @param cegr_var [chr(1)] Variable id, see `cegr_datasets`
+#' @param lon [dbl(n)] Longitude
+#' @param lat [dbl(n)] Latitude
+#' @param t [dbl(n)] Time
+#' @param depth [dbl(n)] Depth
 #'
-#' @return
+#' @return [dbl(n)]
 #' @export
 #'
 #' @examples
-cegr_read <- function(cegr_var, lon, lat, t) {
+#' cegr_read(cegr_datasets$supercomputer$ROMS$bbv,
+#'           -125, 37, as.POSIXct("2020-01-01", "UTC"))
+#' cegr_read(cegr_datasets$supercomputer$ROMS$bbv,
+#'           seq(-125, -130, length.out = 10),
+#'           seq(37, 40, length.out = 10),
+#'           seq(as.POSIXct("2020-01-01", "UTC"),
+#'               as.POSIXct("2020-12-01", "UTC"),
+#'               length.out = 10))
+#' cegr_read(cegr_datasets$annex$satellite$`Ocean physics model`$nrt$salinity,
+#'           -125, 37, as.POSIXct("2020-01-01", "UTC"), 150)
+cegr_read <- function(cegr_var, lon, lat, t, depth = NA) {
   stopifnot(is_path_valid(cegr_var))
 
-  if (grepl("ROMS", cegr_var)) {
-    read_roms(cegr_var, lon, lat, t)
+  read_fun <- if (grepl("ROMS", cegr_var)) {
+    read_roms
   } else {
-    stop("Only reading ROMS variables implemented.")
+    read_satellite
   }
+
+  read_fun(cegr_var, lon, lat, t, depth)
 }
 
-read_roms <- function(cegr_var, lon, lat, t) {
+read_roms <- function(cegr_var, lon, lat, t, depth) {
   # Locate ROMS variable file
   var_split <- strsplit(cegr_var, ":")[[1]]
   roms_var <- var_split[3]
@@ -47,7 +60,7 @@ read_roms <- function(cegr_var, lon, lat, t) {
   result
 }
 
-read_satellite <- function(cegr_var, lon, lat, t, depth = NA) {
+read_satellite <- function(cegr_var, lon, lat, t, depth) {
   # Locate satellite product directory (drop final component of cegr_var, which
   # is the variable within the product)
   product_id <- sub("(.*):[^:]+$", "\\1", cegr_var)

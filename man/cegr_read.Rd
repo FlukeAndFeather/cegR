@@ -2,13 +2,36 @@
 % Please edit documentation in R/read.R
 \name{cegr_read}
 \alias{cegr_read}
-\title{Title}
+\title{Read data CEG-approved data sources}
 \usage{
-cegr_read(cegr_var, lon, lat, t)
+cegr_read(cegr_var, lon, lat, t, depth = NA)
 }
 \arguments{
-\item{t}{}
+\item{cegr_var}{\link{chr(1)} Variable id, see \code{cegr_datasets}}
+
+\item{lon}{\link{dbl(n)} Longitude}
+
+\item{lat}{\link{dbl(n)} Latitude}
+
+\item{t}{\link{dbl(n)} Time}
+
+\item{depth}{\link{dbl(n)} Depth}
+}
+\value{
+\link{dbl(n)}
 }
 \description{
-Title
+Read data CEG-approved data sources
+}
+\examples{
+cegr_read(cegr_datasets$supercomputer$ROMS$bbv,
+          -125, 37, as.POSIXct("2020-01-01", "UTC"))
+cegr_read(cegr_datasets$supercomputer$ROMS$bbv,
+          seq(-125, -130, length.out = 10),
+          seq(37, 40, length.out = 10),
+          seq(as.POSIXct("2020-01-01", "UTC"),
+              as.POSIXct("2020-12-01", "UTC"),
+              length.out = 10))
+cegr_read(cegr_datasets$annex$satellite$`Ocean physics model`$nrt$salinity,
+          -125, 37, as.POSIXct("2020-01-01", "UTC"), 150)
 }
