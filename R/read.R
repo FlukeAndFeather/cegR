@@ -115,9 +115,9 @@ read_satellite <- function(cegr_var, lon, lat, t, depth) {
       .rows$result <- result
       .rows
     }) %>%
-    ungroup() %>%
-    arrange(i) %>%
-    pull(result)
+    dplyr::ungroup() %>%
+    dplyr::arrange(i) %>%
+    dplyr::pull(result)
 }
 
 find_nearest <- function(x, y) {
